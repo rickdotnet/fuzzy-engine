@@ -1,20 +1,17 @@
+using DependencyManager;
 using DependencyManager.Abstractions;
 
-namespace DependencyManager;
+namespace HostConsole;
 
 /// <summary>
 /// Listens for dependencies and triggers the appropriate input
 /// </summary>
-public class DependencyListener
+public class DependencyManager
 {
     private readonly IServiceProvider inputProvider;
     private readonly Dictionary<Type, IInputTrigger> inputTriggersTypeMapping = new();
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="inputProvider"></param>
-    public DependencyListener(IServiceProvider inputProvider)
+    public DependencyManager(IServiceProvider inputProvider)
     {
         this.inputProvider = inputProvider;
     }

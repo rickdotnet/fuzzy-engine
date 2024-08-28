@@ -1,13 +1,13 @@
 ﻿using DependencyManager.Abstractions;
-using Input.SourceOne;
+using Input.SourceTwo;
 
 namespace HostConsole.Dependencies;
 
-public class SourceOneInputTrigger : IInputTrigger
+public class SourceTwoInputTrigger : IInputTrigger
 {
-    public static readonly SourceOneInputTrigger Instance = new();
+    public static readonly SourceTwoInputTrigger Instance = new();
     private bool dataReady;
-    private bool fileTriggered;
+    private bool jobCompleted;
     private DateTime lastTriggered = DateTime.MinValue;
 
     public bool DependenciesMet => dataReady;
@@ -17,31 +17,32 @@ public class SourceOneInputTrigger : IInputTrigger
     // make sure folks understand the implications
     public async ValueTask<bool> Handle(DependencyEvent dependencyEvent)
     {
-        Console.WriteLine("Source One Received Event");
+        
+        Console.WriteLine("Source Two Received Event");
         Console.WriteLine($"Type: {dependencyEvent.EventType}, Details: {dependencyEvent.Details}\n");
         
-        if (dataReady && fileTriggered)
+        if (dataReady && jobCompleted)
             return true;
 
         if (dependencyEvent.EventType == DependencyEventType.DataReady
-            && dependencyEvent.Details == nameof(SourceOneInput))
+            && dependencyEvent.Details == nameof(SourceTwoInput))
         {
             dataReady = await SomeAsyncMethod();
         }
 
-        if (dependencyEvent.EventType == DependencyEventType.FileTrigger
-            && dependencyEvent.Details == "My-File")
+        if (dependencyEvent.EventType == DependencyEventType.JobCompleted
+            && dependencyEvent.Details == "My-Job")
         {
-            fileTriggered = true;
+            jobCompleted = true;
         }
 
-        var result = dataReady && fileTriggered;
+        var result = dataReady && jobCompleted;
         if (!result) return result;
 
         // keep track that we ran this
         lastTriggered = DateTime.Now;
         dataReady = false;
-        fileTriggered = false;
+        jobCompleted = false;
 
         return result;
     }

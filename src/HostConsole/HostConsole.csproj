@@ -9,6 +9,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Input.SourceOne\Input.SourceOne.csproj" />
+      <ProjectReference Include="..\Input.SourceTwo\Input.SourceTwo.csproj" />
     </ItemGroup>
 
     <ItemGroup>
